@@ -1,18 +1,16 @@
-package googleCloud.nightmare.test;
+package tests.googleCloud.hardcore;
 
-import googleCloud.nightmare.page.EngineCalculatorPageGoogleCloudPF;
-import googleCloud.nightmare.page.HomePageGoogleCloudPF;
-import googleCloud.nightmare.page.TenMinuteMailPagePF;
-import org.openqa.selenium.By;
+import tests.googleCloud.page.EngineCalculatorPageGoogleCloudPF;
+import tests.googleCloud.page.HomePageGoogleCloudPF;
+import tests.googleCloud.page.TenMinuteMailPagePF;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class WebDriverGoogleCloudNightmareTests {
+public class WDGoogleCloudNightmareTests {
    WebDriver driver;
 
    HomePageGoogleCloudPF cloudHomePage;
@@ -31,7 +29,7 @@ public class WebDriverGoogleCloudNightmareTests {
    }
 
    @Test
-   public void estimatingOfNewEngineInPricingCalculatorTest() {
+   public void estimatingOfNewEngineInPricingCalculator() {
       cloudHomePage
             .searchTerm("Google Cloud Platform Pricing Calculator")
             .clickOnSearchResult("Google Cloud Platform Pricing Calculator");
@@ -42,31 +40,15 @@ public class WebDriverGoogleCloudNightmareTests {
             .clickOnEstimateButton();
    }
 
-   /*@Test(dependsOnMethods = {"estimatingOfNewEngineInPricingCalculatorTest"})
+   @Test(dependsOnMethods = {"estimatingOfNewEngineInPricingCalculator"})
    public void checkFinalListWithSelectedElementsOfNewEngine() {
+      int numberOfAssertionElement = cloudCalculatorPage.checkFinalListWithSelectedElementsOfNewEngine(allFieldEnumFields);
+      Assert.assertTrue(numberOfAssertionElement > 0,
+            "Failed to locate right value of field named " +
+                  allFieldEnumFields[numberOfAssertionElement].getName() + " in final engine list");
+   }
 
-      List<WebElement> listWithElementsOfNewEngine = driver.findElements(By
-            .xpath("//md-content[@ng-if='cloudCartCtrl.showComputeItems']" +
-                  "/descendant::md-list-item[@role='listitem']" +
-                  "/descendant::div"));
-      boolean matchFound;
-
-      for (int j = 0; j < allEnumFields.length; j++) {
-         matchFound = false;
-         if (allEnumFields[j].nameInFinalList != null) {
-            for (int i = 0; i < listWithElementsOfNewEngine.size(); i++) {
-               if (allEnumFields[j].nameInFinalList.equals(listWithElementsOfNewEngine.get(i).getText())) {
-                  matchFound = true;
-               }
-            }
-            Assert.assertTrue(
-                  matchFound,
-                  "Failed to locate right value of field named " + allEnumFields[j].name + " in final engine list");
-         }
-      }
-   }*/
-
-   @Test(dependsOnMethods = {"estimatingOfNewEngineInPricingCalculatorTest"})
+   @Test(dependsOnMethods = {"estimatingOfNewEngineInPricingCalculator"})
    public void compareEstimatedEnginePriceToManualResult() {
       String totalCostFromManualTesting = "USD 1,082.77";
       String actualTotalCost = cloudCalculatorPage.getTotalCost();
@@ -78,9 +60,8 @@ public class WebDriverGoogleCloudNightmareTests {
                   "Expected to find: " + totalCostFromManualTesting);
    }
 
-   //@Test(dependsOnMethods = {"checkFinalListWithSelectedElementsOfNewEngine", "compareEstimatedEnginePriceToManualResult"})
-   @Test(dependsOnMethods = {"compareEstimatedEnginePriceToManualResult"})
-   public void emailEstimateTest() throws Exception {
+   @Test(dependsOnMethods = {"checkFinalListWithSelectedElementsOfNewEngine", "compareEstimatedEnginePriceToManualResult"})
+   public void emailEstimate() {
 
       mailPage = new TenMinuteMailPagePF(driver).openInNewPage();
       String temporaryMailAddress = mailPage.getTemporaryMail();
@@ -105,18 +86,17 @@ public class WebDriverGoogleCloudNightmareTests {
       Assert.assertTrue(
             totalCostOnMailPage.contains(totalCostOnCloudPage),
             "Mail total cost does not equal to cloud total cost\n" +
-            "Expected: '" + totalCostOnCloudPage + "'\n" +
-            "Actual: '" + totalCostOnMailPage + "'");
+                  "Expected: '" + totalCostOnCloudPage + "'\n" +
+                  "Actual: '" + totalCostOnMailPage + "'");
    }
 
    @AfterTest(alwaysRun = true)
-   public void browserTerminate() throws InterruptedException {
-      Thread.sleep(3000);
+   public void browserTerminate() {
       driver.quit();
       driver = null;
    }
 
    private String ripCostFromRawTotal(String rawTotal) {
-      return rawTotal.substring(rawTotal.indexOf("Cost")-1, rawTotal.indexOf(".")+2);
+      return rawTotal.substring(rawTotal.indexOf("Cost") - 1, rawTotal.indexOf(".") + 2);
    }
 }

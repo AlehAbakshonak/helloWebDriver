@@ -1,4 +1,4 @@
-package googleCloud.nightmare.test;
+package tests.googleCloud.hardcore;
 
 public enum Field {
    QUANTITY("quantity", "4"),
@@ -28,6 +28,10 @@ public enum Field {
 
    public String getValue() {
       return value;
+   }
+
+   public String getNameInFinalList() {
+      return nameInFinalList;
    }
 
    Field(String name, String value, String nameInFinalList) {

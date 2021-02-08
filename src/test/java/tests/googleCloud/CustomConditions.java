@@ -1,4 +1,4 @@
-package googleCloud;
+package tests.googleCloud;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

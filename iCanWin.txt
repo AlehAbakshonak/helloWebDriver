@@ -1,0 +1,7 @@
+Открыть https://tests.pastebin.com или аналогичный сервис в любом браузере
+Создать New Paste со следующими деталями:
+* Код: "Hello from WebDriver"
+
+* Paste Expiration: "10 Minutes"
+
+* Paste Name / Title: "helloweb"

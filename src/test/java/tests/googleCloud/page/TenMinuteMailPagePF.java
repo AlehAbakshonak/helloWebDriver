@@ -1,9 +1,10 @@
-package googleCloud.nightmare.page;
+package tests.googleCloud.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import tests.AbstractPage;
 
 public class TenMinuteMailPagePF extends AbstractPage<TenMinuteMailPagePF> {
 

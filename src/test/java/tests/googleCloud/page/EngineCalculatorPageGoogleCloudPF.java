@@ -1,16 +1,13 @@
-package googleCloud.nightmare.page;
+package tests.googleCloud.page;
 
-import googleCloud.nightmare.test.Field;
+import tests.AbstractPage;
+import tests.googleCloud.hardcore.Field;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class EngineCalculatorPageGoogleCloudPF extends AbstractPage<EngineCalculatorPageGoogleCloudPF> {
 
@@ -31,6 +28,11 @@ public class EngineCalculatorPageGoogleCloudPF extends AbstractPage<EngineCalcul
 
    @FindBy(xpath = "//button[@aria-label='Send Email']")
    WebElement buttonSendEmail;
+
+   @FindBy(xpath = "//md-content[@ng-if='cloudCartCtrl.showComputeItems']" +
+         "/descendant::md-list-item[@role='listitem']" +
+         "/descendant::div")
+   List<WebElement> listWithElementsOfNewEngine;
 
    String instanceInListBoxTemplateXPath = "//div[@class='md-select-menu-container md-active md-clickable']" +
          "/descendant::md-option[@value='%s']";
@@ -114,5 +116,22 @@ public class EngineCalculatorPageGoogleCloudPF extends AbstractPage<EngineCalcul
    public EngineCalculatorPageGoogleCloudPF clickSendEmailButton() {
       waitForWebElementVisible(buttonSendEmail).click();
       return this;
+   }
+
+   public int checkFinalListWithSelectedElementsOfNewEngine(Field[] allEnumFields) {
+      boolean matchFound;
+
+      for (int j = 0; j < allEnumFields.length; j++) {
+         matchFound = false;
+         if (allEnumFields[j].getNameInFinalList() != null) {
+            for (int i = 0; i < listWithElementsOfNewEngine.size(); i++) {
+               if (allEnumFields[j].getNameInFinalList().equals(listWithElementsOfNewEngine.get(i).getText())) {
+                  matchFound = true;
+               }
+            }
+            if (!matchFound) return j;
+         }
+      }
+      return -1;
    }
 }

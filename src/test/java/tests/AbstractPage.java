@@ -1,4 +1,4 @@
-package googleCloud.nightmare.page;
+package tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -51,7 +51,7 @@ public abstract class AbstractPage<T> {
       return new ArrayList<>(driver.getWindowHandles());
    }
 
-   public T takeFocus() throws Exception {
+   public T takeFocus() {
       ArrayList<String> tabs = getAllWindowHandles();
       boolean focusTaken = false;
 
@@ -63,9 +63,11 @@ public abstract class AbstractPage<T> {
          }
       }
       if (!focusTaken) {
-         throw new Exception("Attempt to gain focus by handle for page that don't exist\n" +
+         System.out.println("Test dropped on attempt to gain focus by handle for page that don't exist\n" +
                "List of all handles:\n" + tabs.toString() + "\n" +
-               "target handle: " + this.windowHandle);
+               "target handle: " + this.windowHandle +
+               "target page object: " + this.getClass().getCanonicalName());
+         return null;
       }
       return (T) this;
    }
