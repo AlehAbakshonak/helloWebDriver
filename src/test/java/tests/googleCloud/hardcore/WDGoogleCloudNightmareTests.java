@@ -42,10 +42,14 @@ public class WDGoogleCloudNightmareTests {
 
    @Test(dependsOnMethods = {"estimatingOfNewEngineInPricingCalculator"})
    public void checkFinalListWithSelectedElementsOfNewEngine() {
-      int numberOfAssertionElement = cloudCalculatorPage.checkFinalListWithSelectedElementsOfNewEngine(allFieldEnumFields);
-      Assert.assertTrue(numberOfAssertionElement > 0,
-            "Failed to locate right value of field named " +
-                  allFieldEnumFields[numberOfAssertionElement].getName() + " in final engine list");
+      int numberOfAssertionElement = cloudCalculatorPage.
+            checkFinalListWithSelectedElementsOfNewEngine(allFieldEnumFields);
+      String currentAssertionFieldName = null;
+      if (numberOfAssertionElement > 0) {
+         currentAssertionFieldName = allFieldEnumFields[numberOfAssertionElement].getName();
+      }
+      Assert.assertFalse(numberOfAssertionElement > 0, "Failed to locate right value of field named " +
+            currentAssertionFieldName + " in final engine list");
    }
 
    @Test(dependsOnMethods = {"estimatingOfNewEngineInPricingCalculator"})
@@ -60,7 +64,10 @@ public class WDGoogleCloudNightmareTests {
                   "Expected to find: " + totalCostFromManualTesting);
    }
 
-   @Test(dependsOnMethods = {"checkFinalListWithSelectedElementsOfNewEngine", "compareEstimatedEnginePriceToManualResult"})
+   @Test(dependsOnMethods = {
+         "checkFinalListWithSelectedElementsOfNewEngine",
+         "compareEstimatedEnginePriceToManualResult"
+   })
    public void emailEstimate() {
 
       mailPage = new TenMinuteMailPagePF(driver).openInNewPage();
@@ -77,7 +84,9 @@ public class WDGoogleCloudNightmareTests {
       String totalCostOnMailPageRaw =
             mailPage
                   .takeFocus()
-                  .clickOnDeliveredMailByItsTextWithCustomWaitTime(40, "Google Cloud Platform Price Estimate")
+                  .clickOnDeliveredMailByItsTextWithCustomWaitTime(
+                        40,
+                        "Google Cloud Platform Price Estimate")
                   .getTotalCostFromDeliveredMail();
 
       String totalCostOnCloudPage = ripCostFromRawTotal(totalCostOnCloudPageRaw);

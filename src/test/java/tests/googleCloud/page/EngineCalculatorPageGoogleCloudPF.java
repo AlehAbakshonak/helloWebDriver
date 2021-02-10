@@ -127,6 +127,7 @@ public class EngineCalculatorPageGoogleCloudPF extends AbstractPage<EngineCalcul
             for (int i = 0; i < listWithElementsOfNewEngine.size(); i++) {
                if (allEnumFields[j].getNameInFinalList().equals(listWithElementsOfNewEngine.get(i).getText())) {
                   matchFound = true;
+                  break;
                }
             }
             if (!matchFound) return j;
